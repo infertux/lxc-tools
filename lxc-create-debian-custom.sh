@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# Download a fresh Debian then install and configure it to be a LXC container.
+# Download a fresh minimal Debian then install and configure it to be a LXC container.
 # You may probably ajust the following constants before using this script.
 
 
