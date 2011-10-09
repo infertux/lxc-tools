@@ -21,7 +21,7 @@
 
 LXC=/var/lib/lxc
 ROOTFS=rootfs
-RUNNING_CONTAINERS="$(find /cgroup -mindepth 1 -maxdepth 1 -type d | cut -d/ -f3-)"
+RUNNING_CONTAINERS="$(netstat -xa | grep $LXC | sed -e 's#.*'"$LXC/"'\(.*\)/command#\1#')"
 
 for container in $RUNNING_CONTAINERS; do
   echo "Stopping $container..."
