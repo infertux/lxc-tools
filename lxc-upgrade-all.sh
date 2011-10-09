@@ -17,15 +17,22 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # Check for updates on Debian-based containers.
+# Pass --interactive flag (or anything ;)) to give you the possibility to upgrade.
 
 LXC=/var/lib/lxc
 ROOTFS=rootfs
-RUNNING_CONTAINERS="$(find /cgroup -mindepth 1 -maxdepth 1 -type d | cut -d/ -f3-)"
+UPGRADE_CMD="apt-get dist-upgrade"
+RUNNING_CONTAINERS="$(netstat -xa | grep $LXC | sed -e 's#.*'"$LXC/"'\(.*\)/command#\1#')"
+INTERACTIVE="$1"
 
 for container in $RUNNING_CONTAINERS; do
-  echo "Checking $container..."
   chroot $LXC/$container/$ROOTFS apt-get update -qq
-  chroot $LXC/$container/$ROOTFS apt-get dist-upgrade -s
-  echo
+  updates="$(chroot $LXC/$container/$ROOTFS $UPGRADE_CMD -qs | grep '^ ')"
+
+  if [ "$updates" ]; then
+    [ "$INTERACTIVE" ] && chroot $LXC/$container/$ROOTFS $UPGRADE_CMD || echo -e "Updates for $container:\n$updates"
+  else
+    echo "$container is up-to-date."
+  fi
 done
 
