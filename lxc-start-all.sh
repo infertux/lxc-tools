@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # LXC tools
-# Copyright (C) 2011 Infertux <infertux@infertux.com>
+# Copyright (C) 2012 Infertux <infertux@infertux.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -19,6 +19,10 @@
 
 # List of containers you want to start at boot
 CONTAINERS="web mail test"
+
+###
+
+set -eu
 
 for container in $CONTAINERS; do
   if [ "$(lxc-info -n $container)" != "'$container' is STOPPED" ]; then

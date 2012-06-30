@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # LXC tools
-# Copyright (C) 2011 Infertux <infertux@infertux.com>
+# Copyright (C) 2012 Infertux <infertux@infertux.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,8 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # Print IP addresses of all containers.
+
+set -eu
 
 LXC=/var/lib/lxc
 

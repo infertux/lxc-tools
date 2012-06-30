@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # LXC tools
-# Copyright (C) 2011 Infertux <infertux@infertux.com>
+# Copyright (C) 2012 Infertux <infertux@infertux.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -20,22 +20,26 @@
 # You may probably ajust the following constants before using this script.
 
 
-NETWORK=10.1.2
-GATEWAY=192.168.1.1
-INTERFACE=eth0
-BRIDGE=br0
+NETWORK=10.1.2 # local network without the machine part of the address
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1 # can be on a different network
+INTERFACE=eth0 # network interface in containers
+BRIDGE=br0 # host bridge for containers
 
 ARCH=amd64
-VERSION=squeeze
+VERSION=wheezy
 PACKAGES=ifupdown,netbase,net-tools
 # Other useful packages: dialog, iproute
 
 PASSWORD=ChangeMe
 
+###
+
+set -eu
 
 usage()
 {
-    cat <<EOF
+    cat >&2 <<EOF
 $(basename $0) -h|--help -n|--name=<name> -i|--ip=<last-byte>
 Example: $(basename $0) -n test -i 42
 EOF
@@ -59,17 +63,17 @@ do
     -h|--help)      usage $0 && exit 0;;
     -n|--name)      name=$2; shift 2;;
     -i|--ip)        ip=$2; shift 2;;
-    --)             shift 1; break ;;
+    --)             shift; break ;;
     *)              break ;;
     esac
 done
 
-type debootstrap || fail "'debootstrap' command is missing"
+command -v debootstrap >/dev/null || fail "You need to install 'debootstrap'."
 
-[ "$name" ] || fail "'name' parameter is required"
-[ "$ip" ] || fail "'ip' parameter is required"
+[ "$name" ] || fail "'name' parameter is required."
+[ "$ip" ] || fail "'ip' parameter is required."
 
-[ $UID -ne 0 ] && fail "This script should be run as 'root'"
+[ $UID -ne 0 ] && fail "This script must be run as root."
 
 path="/var/lib/lxc/$name"
 rootfs="$path/rootfs"
@@ -111,7 +115,7 @@ iface lo inet loopback
 auto $INTERFACE
 iface $INTERFACE inet static
   address $NETWORK.$ip
-  netmask 255.255.255.0
+  netmask $NETMASK
   up route add -host $GATEWAY dev $INTERFACE
   up route add default gw $GATEWAY dev $INTERFACE
 EOF
@@ -184,5 +188,5 @@ lxc.network.ipv4 = $NETWORK.$ip/24
 EOF
 
 echo
-echo "Container ready, start it with: lxc-start -n $name."
+echo "Container ready, you can start it as a daemon with: lxc-start -dn $name."
 

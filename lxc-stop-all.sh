@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # LXC tools
-# Copyright (C) 2011 Infertux <infertux@infertux.com>
+# Copyright (C) 2012 Infertux <infertux@infertux.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,8 @@
 
 # Invoke halt command on every running container.
 # Especially useful to shutdown properly all containers before rebooting the LXC host.
+
+set -eu
 
 LXC=/var/lib/lxc
 ROOTFS=rootfs
