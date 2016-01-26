@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 # LXC tools
 # Copyright (C) 2012-2016 Infertux <infertux@infertux.com>
@@ -16,10 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# Invoke halt command on every running container.
 # Especially useful to shutdown properly all containers before rebooting the LXC host.
-
-set -eu
 
 LXC=/var/lib/lxc
 ROOTFS=rootfs

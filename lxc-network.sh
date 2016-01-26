@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 # LXC tools
 # Copyright (C) 2012-2016 Infertux <infertux@infertux.com>
@@ -17,8 +17,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # Print IP addresses of all containers.
-
-set -eu
 
 LXC=/var/lib/lxc
 

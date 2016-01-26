@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 # LXC tools
 # Copyright (C) 2012-2016 Infertux <infertux@infertux.com>
@@ -19,12 +19,10 @@
 # Check for updates on Debian-based containers.
 # Pass -i flag to give you the possibility to upgrade.
 
-set -eu
-
 LXC=/var/lib/lxc
 ROOTFS=rootfs
 UPGRADE_CMD="apt-get dist-upgrade"
-RUNNING_CONTAINERS="$(netstat -xa | grep $LXC | sed -e 's#.*'"$LXC/"'\(.*\)/command#\1#')"
+RUNNING_CONTAINERS="$(lxc-ls)"
 INTERACTIVE=0
 
 usage()

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 # LXC tools
 # Copyright (C) 2012-2016 Infertux <infertux@infertux.com>
@@ -34,8 +34,6 @@ PACKAGES=ifupdown,netbase,net-tools
 PASSWORD=ChangeMe
 
 ###
-
-set -eu
 
 usage()
 {
