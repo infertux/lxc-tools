@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 # LXC tools
-# Copyright (C) 2012-2016 Infertux <infertux@infertux.com>
+# Copyright (C) 2012-2019 Infertux <infertux@infertux.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -18,12 +18,11 @@
 
 # Especially useful to shutdown properly all containers before rebooting the LXC host.
 
-LXC=/var/lib/lxc
+LXC=/var/lib/lxd
 ROOTFS=rootfs
-RUNNING_CONTAINERS="$(lxc-ls)"
+RUNNING_CONTAINERS="$(lxc list)"
 
 for container in $RUNNING_CONTAINERS; do
   echo "Stopping $container..."
-  lxc-stop --name $container
+  lxc stop $container
 done
-
