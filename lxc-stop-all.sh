@@ -18,12 +18,9 @@
 
 # Especially useful to shutdown properly all containers before rebooting the LXC host.
 
-LXC=/var/lib/lxc
-ROOTFS=rootfs
-RUNNING_CONTAINERS="$(lxc-ls)"
+RUNNING_CONTAINERS="$(lxc list -c ns | grep 'RUNNING' | awk -F '|' '{print $2}' | awk '{$1=$1;print}')"
 
 for container in $RUNNING_CONTAINERS; do
-  echo "Stopping $container..."
-  lxc-stop --name $container
+echo "Stopping $container..."
+lxc stop $container
 done
-
